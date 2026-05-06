@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Processing Course - Computer Studies</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ----- Reset & Base ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.7;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ----- Navigation ----- */
+        .navbar {
+            background: #0f172a;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-bottom: 3px solid #3b82f6;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .navbar .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .navbar .logo span {
+            color: #60a5fa;
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .nav-links a {
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #3b82f6;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* ----- Page Sections ----- */
+        .page-section {
+            display: none;
+            padding: 40px 0 70px;
+            animation: fadeUp 0.5s ease;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- Home / Dashboard ----- */
+        #home {
+            padding: 0 0 60px 0;
+        }
+        .hero {
+            background: #0f172a;
+            color: #fff;
+            padding: 60px 0 40px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+        .hero h1 span {
+            color: #60a5fa;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        /* Carousel */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .carousel-slide {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: #fff;
+            min-height: 360px;
+            position: relative;
+        }
+        .carousel-slide .slide-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.9;
+            z-index: 0;
+        }
+        .carousel-slide .slide-text {
+            position: relative;
+            z-index: 1;
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+        }
+        .carousel-slide .slide-text h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        .carousel-slide .slide-text p {
+            color: #475569;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .carousel-slide .slide-text .tag {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            padding: 4px 18px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            align-self: flex-start;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            z-index: 10;
+            transition: all 0.3s;
+            color: #0f172a;
+        }
+        .carousel-btn:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .carousel-btn.prev {
+            left: 16px;
+        }
+        .carousel-btn.next {
+            right: 16px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .carousel-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .carousel-dots span.active {
+            background: #3b82f6;
+            transform: scale(1.2);
+        }
+
+        /* Quick Grid */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 48px;
+        }
+        .quick-grid a {
+            background: #fff;
+            padding: 18px 10px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e9edf2;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #1e293b;
+        }
+        .quick-grid a:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+        .quick-grid a i {
+            display: block;
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            color: #3b82f6;
+        }
+
+        /* ----- Unit Content ----- */
+        .unit-header {
+            background: #0f172a;
+            color: #fff;
+            padding: 36px 40px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .unit-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .unit-header h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .unit-header h1 span {
+            color: #60a5fa;
+        }
+        .unit-header .sub {
+            position: relative;
+            z-index: 1;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .content-block {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px 34px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e9edf2;
+        }
+        .content-block h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 18px;
+        }
+        .content-block h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        .content-block p,
+        .content-block li {
+            color: #334155;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        .content-block ul,
+        .content-block ol {
+            padding-left: 26px;
+            margin-bottom: 14px;
+        }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 6px solid #3b82f6;
+            padding: 16px 24px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .highlight-box strong {
+            color: #1e40af;
+        }
+        .highlight-box.info {
+            background: #f0f9ff;
+            border-color: #0ea5e9;
+        }
+        .highlight-box.warning {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 18px 0;
+            border-radius: 12px;
+            border: 1px solid #e9edf2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        table th {
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e9edf2;
+        }
+        table tr:last-child td {
+            border-bottom: none;
+        }
+        table tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* Image / Diagram Placeholder */
+        .img-placeholder {
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 16px 0;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            color: #475569;
+            font-weight: 500;
+            flex-direction: column;
+            gap: 6px;
+            padding: 20px;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+        }
+        .img-placeholder i {
+            font-size: 2.8rem;
+            color: #64748b;
+        }
+        .img-placeholder .caption {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Video Embed */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            margin: 18px 0;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Terminology */
+        .term {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* ----- Responsive ----- */
+        @media (max-width: 1024px) {
+            .carousel-slide {
+                grid-template-columns: 1fr;
+            }
+            .carousel-slide .slide-bg {
+                min-height: 200px;
+                position: relative;
+            }
+            .carousel-slide .slide-text {
+                backdrop-filter: none;
+            }
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: #1e293b;
+                padding: 16px;
+                border-radius: 16px;
+                margin-top: 12px;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .hamburger {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .content-block {
+                padding: 18px;
+            }
+            .unit-header {
+                padding: 24px 20px;
+            }
+            .unit-header h1 {
+                font-size: 1.5rem;
+            }
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            .carousel-btn.prev {
+                left: 6px;
+            }
+            .carousel-btn.next {
+                right: 6px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+            .carousel-slide .slide-text {
+                padding: 20px 16px;
+            }
+            .carousel-slide .slide-text h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ----- Scroll Top ----- */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3b82f6;
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+            border: none;
+        }
+        .scroll-top:hover {
+            transform: scale(1.1);
+            background: #2563eb;
+        }
+        .scroll-top.visible {
+            display: flex;
+        }
+
+        /* ----- Footer ----- */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 28px 0;
+            text-align: center;
+            border-top: 3px solid #3b82f6;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #60a5fa;
+        }
+
+        /* Helpers */
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+        .text-center { text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Data<span>Processing</span></div>
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="active" data-page="home">Home</a>
+                <a href="#" data-page="unit1">Unit 1</a>
+                <a href="#" data-page="unit2">Unit 2</a>
+                <a href="#" data-page="unit3">Unit 3</a>
+                <a href="#" data-page="unit4">Unit 4</a>
+                <a href="#" data-page="unit5">Unit 5</a>
+                <a href="#" data-page="unit7">Unit 7</a>
+                <a href="#" data-page="unit8">Unit 8</a>
+                <a href="#" data-page="unit10">Unit 10</a>
+                <a href="#" data-page="info">InfoSys</a>
+                <a href="#" data-page="glossary">Glossary</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== SCROLL TOP ===== -->
+    <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- ============================================================ -->
+    <!-- ===== HOME PAGE ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section active" id="page-home">
+        <div class="hero">
+            <div class="container">
+                <h1>Welcome to <span>Data Processing</span></h1>
+                <p>Master the fundamentals of computers, hardware, software, networking, security, and information systems. All in one structured learning platform.</p>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
+                    <span style="background:#3b82f6;color:#fff;padding:4px 18px;border-radius:30px;font-size:0.85rem;">10+ Units</span>
+                    <span style="background:#1e293b;color:#94a3b8;padding:4px 18px;border-radius:30px;font-size:0.85rem;">Video Lessons</span>
+                    <span style="background:#1e293b;color:#94a3b8;padding:4px 18px;border-radius:30px;font-size:0.85rem;">Interactive</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Carousel -->
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slide 1: Basics of Computer -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 1</span>
+                            <h2>Basics of Computer</h2>
+                            <p>Learn what a computer is, its characteristics, history, and the five generations of computing.</p>
+                            <a href="#" data-page="unit1" style="color:#3b82f6;font-weight:600;">Explore Unit 1 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 2: Computer Hardware -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 2</span>
+                            <h2>Computer Hardware</h2>
+                            <p>Understand the physical components of a computer: CPU, ALU, Registers, Motherboard, and Buses.</p>
+                            <a href="#" data-page="unit2" style="color:#3b82f6;font-weight:600;">Explore Unit 2 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 3: Memory -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 3</span>
+                            <h2>Computer Memory</h2>
+                            <p>Explore the memory hierarchy: Registers, Cache, RAM, ROM, and Secondary storage like HDD/SSD.</p>
+                            <a href="#" data-page="unit3" style="color:#3b82f6;font-weight:600;">Explore Unit 3 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 4: Input/Output -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 4</span>
+                            <h2>Input & Output</h2>
+                            <p>Discover how computers interact with the world: Keyboards, Mice, Scanners, Printers, Monitors, and Ports.</p>
+                            <a href="#" data-page="unit4" style="color:#3b82f6;font-weight:600;">Explore Unit 4 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 5: Software -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 5</span>
+                            <h2>System & Application Software</h2>
+                            <p>Understand the difference between System Software (OS, Drivers) and Application Software (Word, Excel).</p>
+                            <a href="#" data-page="unit5" style="color:#3b82f6;font-weight:600;">Explore Unit 5 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 6: Networking -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 7</span>
+                            <h2>Computer Networks</h2>
+                            <p>Learn how computers communicate: LAN, WAN, MAN, Topologies (Bus, Ring, Star), and Network Devices.</p>
+                            <a href="#" data-page="unit7" style="color:#3b82f6;font-weight:600;">Explore Unit 7 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 7: Internet -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 8</span>
+                            <h2>Internet Basics</h2>
+                            <p>Explore the evolution of the Internet, WWW, URL, ISP, Email, Search Engines, and E-commerce.</p>
+                            <a href="#" data-page="unit8" style="color:#3b82f6;font-weight:600;">Explore Unit 8 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 8: Security -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Unit 10</span>
+                            <h2>Computer Security</h2>
+                            <p>Protect your data from malicious software, hacking, DoS attacks, and learn about Cryptography & Authentication.</p>
+                            <a href="#" data-page="unit10" style="color:#3b82f6;font-weight:600;">Explore Unit 10 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Slide 9: Information Systems -->
+                    <div class="carousel-slide">
+                        <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200');"></div>
+                        <div class="slide-text">
+                            <span class="tag">Info Systems</span>
+                            <h2>Information Systems</h2>
+                            <p>Understand how data becomes information and knowledge. Explore TPS, MIS, DSS, EIS, and ERP.</p>
+                            <a href="#" data-page="info" style="color:#3b82f6;font-weight:600;">Explore Info Systems &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+
+            <!-- Quick Access -->
+            <div class="quick-grid">
+                <a href="#" data-page="unit1"><i class="fas fa-microchip"></i>Basics</a>
+                <a href="#" data-page="unit2"><i class="fas fa-desktop"></i>Hardware</a>
+                <a href="#" data-page="unit3"><i class="fas fa-memory"></i>Memory</a>
+                <a href="#" data-page="unit4"><i class="fas fa-keyboard"></i>I/O</a>
+                <a href="#" data-page="unit5"><i class="fas fa-window-maximize"></i>Software</a>
+                <a href="#" data-page="unit7"><i class="fas fa-globe"></i>Networks</a>
+                <a href="#" data-page="unit10"><i class="fas fa-lock"></i>Security</a>
+                <a href="#" data-page="info"><i class="fas fa-database"></i>InfoSys</a>
+                <a href="#" data-page="glossary"><i class="fas fa-book"></i>Glossary</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 1: BASICS OF COMPUTER ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit1">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 1: <span>Basics of Computer</span></h1>
+                <div class="sub">Introduction · Characteristics · History · Generations · Classification</div>
+            </div>
+
+            <div class="content-block">
+                <h2>What is a Computer?</h2>
+                <p><span class="term">Computer</span> — an electronic machine that accepts data, processes it, and generates output. The term comes from <em>"compute"</em> (to calculate).</p>
+                <div class="highlight-box">
+                    <strong>Key Idea:</strong> A computer performs both simple and complex operations with <strong>speed and accuracy</strong>.
+                </div>
+                
+                <!-- Scenario 1 -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Online Exam System</h3>
+                    <p>Ten thousand students take an exam online. The computer must quickly calculate scores, generate individual reports, and store each student's data without errors. This demonstrates the computer's <strong>speed</strong>, <strong>accuracy</strong>, and <strong>storage capability</strong>.</p>
+                </div>
+                <!-- Scenario 2 -->
+                <div style="background:#fef9f0;border-left:6px solid #f59e0b;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#92400e;">Scenario: Bank ATM Network</h3>
+                    <p>A bank customer withdraws money in London. The ATM communicates with the main database to verify the balance, deduct the amount, and update the ledger instantly. This shows the computer's <strong>versatility</strong> and <strong>diligence</strong> in a multi-user environment.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Generations of Computer</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Generation</th><th>Technology</th><th>Period</th><th>Key Feature</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st</td><td>Vacuum Tubes</td><td>1940–1956</td><td>Machine language, huge size</td></tr>
+                            <tr><td>2nd</td><td>Transistors</td><td>1956–1963</td><td>Assembly language, smaller, reliable</td></tr>
+                            <tr><td>3rd</td><td>Integrated Circuits (IC)</td><td>1964–1971</td><td>High-level languages, keyboards &amp; monitors</td></tr>
+                            <tr><td>4th</td><td>Microprocessors (LSI/VLSI)</td><td>1971–present</td><td>Personal Computers, GUI, Internet</td></tr>
+                            <tr><td>5th</td><td>Artificial Intelligence</td><td>Present &amp; Next</td><td>Parallel processing, learning, reasoning</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box info">
+                    <strong>Note:</strong> Charles Babbage is called the <strong>"Father of Computer"</strong> for his Analytical Engine (1823).
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Watch & Learn (Basics of Computer)</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/pbS2bgg9Z0A" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <p style="text-align:center;color:#64748b;">A complete introduction to computer basics, generations, and hardware.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 2: COMPUTER SYSTEM HARDWARE ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit2">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 2: <span>Computer System Hardware</span></h1>
+                <div class="sub">CPU · ALU · Registers · Motherboard · Buses · Expansion Slots</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Central Processing Unit (CPU)</h2>
+                <p><span class="term">CPU</span> — the "brain" of the computer. It consists of the <strong>Arithmetic Logic Unit (ALU)</strong> and the <strong>Control Unit (CU)</strong>, plus a set of <strong>registers</strong> for temporary storage.</p>
+                <div class="img-placeholder">
+                    <i class="fas fa-cpu"></i>
+                    <span>CPU: ALU + CU + Registers</span>
+                    <span class="caption">(Heart of the computer)</span>
+                </div>
+                <h3>ALU (Arithmetic Logic Unit)</h3>
+                <p>Performs arithmetic (+, -, ×, ÷) and logic operations (comparisons: &lt;, &gt;, =).</p>
+                <h3>Registers</h3>
+                <p>High-speed storage areas inside the CPU. They hold data, instructions, and intermediate results during processing.</p>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Video Editing</h3>
+                    <p>When you edit a 4K video, the CPU's <strong>ALU</strong> processes millions of pixel calculations per second. The <strong>registers</strong> temporarily store the color values for each pixel, while the <strong>Control Unit</strong> directs the flow of data from the hard drive to the GPU and RAM.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Motherboard & Buses</h2>
+                <p><span class="term">Motherboard</span> — the main circuit board that connects all components. It contains the <strong>CPU socket</strong>, <strong>RAM slots</strong>, <strong>expansion slots</strong> (PCI, AGP, PCIe), and <strong>I/O ports</strong>.</p>
+                <p><span class="term">System Bus</span> — set of pathways for data, addresses, and control signals. It includes:</p>
+                <ul>
+                    <li><strong>Data Bus</strong> — transfers data between CPU and memory.</li>
+                    <li><strong>Address Bus</strong> — carries memory addresses.</li>
+                    <li><strong>Control Bus</strong> — carries read/write commands and status signals.</li>
+                </ul>
+                <div class="img-placeholder">
+                    <i class="fas fa-microchip"></i>
+                    <span>Motherboard with CPU, RAM, expansion slots</span>
+                    <span class="caption">(The hub of the computer)</span>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Hardware Basics</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/akW5bJgC-Qg" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 3: COMPUTER MEMORY ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit3">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 3: <span>Computer Memory</span></h1>
+                <div class="sub">Memory Hierarchy · RAM · ROM · Cache · Secondary Storage</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Memory Representation</h2>
+                <p><span class="term">Bit</span> — smallest unit (0 or 1).<br />
+                <span class="term">Byte</span> — 8 bits, the smallest addressable unit.<br />
+                <span class="term">Kilobyte (KB)</span> = 1024 bytes · <span class="term">Megabyte (MB)</span> = 1024 KB · <span class="term">Gigabyte (GB)</span> = 1024 MB · <span class="term">Terabyte (TB)</span> = 1024 GB.</p>
+                
+                <!-- Scenario -->
+                <div style="background:#fef9f0;border-left:6px solid #f59e0b;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#92400e;">Scenario: Opening a Large Game</h3>
+                    <p>When you launch a modern game (100 GB), the operating system loads <strong>4 GB of frequently used data into RAM</strong> for fast access. The <strong>cache</strong> stores the characters, textures, and commands you use most often during gameplay, ensuring smooth performance.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>RAM vs ROM</h2>
+                <div class="grid-2">
+                    <div style="background:#eff6ff;padding:18px;border-radius:12px;">
+                        <h3>RAM (Random Access Memory)</h3>
+                        <ul>
+                            <li>Volatile (losses data on power off)</li>
+                            <li>Read/write</li>
+                            <li>DRAM (Dynamic) — main memory</li>
+                            <li>SRAM (Static) — cache memory</li>
+                        </ul>
+                    </div>
+                    <div style="background:#fef3c7;padding:18px;border-radius:12px;">
+                        <h3>ROM (Read Only Memory)</h3>
+                        <ul>
+                            <li>Non-volatile (retains data)</li>
+                            <li>Read only (typically)</li>
+                            <li>Stores BIOS / firmware</li>
+                            <li>PROM, EPROM, EEPROM variants</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Memory Explained</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/xajH5Gk4NnE" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 4: INPUT & OUTPUT DEVICES ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit4">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 4: <span>Input &amp; Output Devices</span></h1>
+                <div class="sub">Keyboards · Pointing Devices · Scanners · Printers · Monitors · Ports</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Input Devices</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Keyboard</h3>
+                        <p>Standard QWERTY layout. Keys: typing, numeric, function, control, special.</p>
+                        <h3>Mouse</h3>
+                        <p>Pointing device. Physical (ball) or optical. Actions: point, click, right-click, double-click, drag &amp; drop.</p>
+                        <h3>Joystick</h3>
+                        <p>Used for gaming and controlling cursor speed.</p>
+                    </div>
+                    <div>
+                        <h3>Digitizing Tablet</h3>
+                        <p>For CAD, drawing, and sketching. Pen + tablet.</p>
+                        <h3>Light Pen &amp; Touch Screen</h3>
+                        <p>Direct interaction with screen. Used in ATMs, kiosks.</p>
+                        <h3>Scanner</h3>
+                        <p>Converts paper documents to digital images. Hand-held or flat-bed.</p>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Airport Check-in</h3>
+                    <p>At the airport, a clerk uses a <strong>keyboard</strong> to type your passport number and a <strong>mouse</strong> to select the correct flight. A <strong>barcode scanner</strong> reads your boarding pass, and a <strong>thermal printer</strong> prints a luggage tag. The <strong>monitor</strong> displays the seat assignment and gate information.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Output Devices</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Monitor</h3>
+                        <p>CRT or LCD. Resolution (pixels), dot pitch, refresh rate.</p>
+                        <h3>Printer</h3>
+                        <p><strong>Impact</strong> (Dot matrix, Daisy wheel, Drum) — low cost, bulk printing.<br />
+                        <strong>Non-impact</strong> (Ink-jet, Laser) — high quality, quiet.</p>
+                    </div>
+                    <div>
+                        <h3>Plotter</h3>
+                        <p>Vector graphics output for maps, blueprints, CAD/CAM.</p>
+                        <h3>Audio Output</h3>
+                        <p>Speakers, headphones. Sound card converts digital to analog.</p>
+                        <h3>Video Output</h3>
+                        <p>Data projector for presentations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Input &amp; Output Devices</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/UFC3qQDiC3A" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 5: USER-COMPUTER INTERFACE (Software) ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit5">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 5: <span>User-Computer Interface (Software)</span></h1>
+                <div class="sub">System Software · Operating System · Device Drivers · Utilities · Programming Languages</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Types of Software</h2>
+                <div class="grid-2">
+                    <div style="background:#eff6ff;padding:18px;border-radius:12px;">
+                        <h3>System Software</h3>
+                        <p>Provides basic functionality, controls hardware, acts as interface. Examples: Operating System (Windows, Linux), device drivers, utilities.</p>
+                    </div>
+                    <div style="background:#fef3c7;padding:18px;border-radius:12px;">
+                        <h3>Application Software</h3>
+                        <p>Performs specific tasks for users. Examples: MS Word, Excel, Photoshop, Chrome, Tally.</p>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Using a Smartphone</h3>
+                    <p>When you open your smartphone, the <strong>operating system (android/iOS)</strong> starts up first, managing the camera, fingerprint sensor, and Wi-Fi. Then you open the <strong>application software</strong> (WhatsApp, YouTube, Camera) to send a message or take a photo. The <strong>device drivers</strong> translate your touches into commands the CPU can understand.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Programming Languages</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Generation</th><th>Language</th><th>Description</th></tr></thead>
+                        <tbody>
+                            <tr><td>1st</td><td>Machine Language</td><td>Binary (0s and 1s), hardware-specific</td></tr>
+                            <tr><td>2nd</td><td>Assembly Language</td><td>Mnemonics (ADD, SUB), requires assembler</td></tr>
+                            <tr><td>3rd</td><td>High-level (C, COBOL, Java)</td><td>English-like, portable, compiler/interpreter needed</td></tr>
+                            <tr><td>4th</td><td>.NET, Scripting (JavaScript)</td><td>Rapid development, web-oriented</td></tr>
+                            <tr><td>5th</td><td>LISP, Prolog</td><td>Artificial Intelligence, logic programming</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Software Concepts</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/tdPt9r0p8d4" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 7: COMPUTER NETWORKS ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit7">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 7: <span>Computer Networks</span></h1>
+                <div class="sub">Data Transmission · LAN · MAN · WAN · Topologies · Network Devices</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Data Transmission Media</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Guided (Wired)</h3>
+                        <ul>
+                            <li><strong>Twisted Pair</strong> (UTP/STP) — common, cheap, up to 100m</li>
+                            <li><strong>Coaxial</strong> — thicker, longer distance (185–500m)</li>
+                            <li><strong>Optical Fiber</strong> — light signals, high speed, long distance, secure</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Unguided (Wireless)</h3>
+                        <ul>
+                            <li><strong>Radio</strong> (RF) — broadcast, no physical connection</li>
+                            <li><strong>Microwave</strong> — directional, line-of-sight (≈42km)</li>
+                            <li><strong>Satellite</strong> — geosynchronous, global coverage</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Watching Netflix</h3>
+                    <p>You stream a movie at home. The <strong>optical fiber</strong> from your ISP brings the video data to the neighborhood, then the <strong>coaxial cable</strong> carries it to your house. Your <strong>Wi-Fi router</strong> (radio waves) transmits the data to your tablet. This is a combination of guided and unguided media.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>LAN Topologies</h2>
+                <div class="grid-3">
+                    <div style="background:#f8fafc;padding:18px;border-radius:12px;">
+                        <h3>Bus</h3>
+                        <p>All devices on a central cable (bus). Easy to implement, but cable failure brings down the network.</p>
+                    </div>
+                    <div style="background:#f8fafc;padding:18px;border-radius:12px;">
+                        <h3>Ring</h3>
+                        <p>Devices connected in a circle. Token passing for access. Failure of one node affects the ring.</p>
+                    </div>
+                    <div style="background:#f8fafc;padding:18px;border-radius:12px;">
+                        <h3>Star</h3>
+                        <p>All devices connect to a central hub/switch. Most popular. Hub failure disables the network.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Networking Fundamentals</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/_88t4l0k-n4" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 8: INTERNET BASICS ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit8">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 8: <span>Internet Basics</span></h1>
+                <div class="sub">History · WWW · Browser · URL · ISP · E-mail · Search Engines · E-commerce</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Evolution of Internet</h2>
+                <p><strong>1969</strong> — ARPANET (US Department of Defense) — first network.<br />
+                <strong>1980s</strong> — NSFNET, Usenet, e-mail.<br />
+                <strong>1990s</strong> — World Wide Web (WWW) developed at CERN by Tim Berners-Lee. Explosive growth.</p>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Online Shopping</h3>
+                    <p>You open an e-commerce website. The <strong>URL</strong> (amazon.com) is resolved by a <strong>DNS server</strong> to an IP address. Your browser sends an HTTP request, and the <strong>web server</strong> responds with the page HTML. The <strong>search engine</strong> helps you find the product, and you complete the purchase using <strong>encryption</strong> for security.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Key Internet Terms</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>World Wide Web (WWW)</h3>
+                        <p>Collection of linked documents (web pages) accessed via the Internet using HTTP.</p>
+                        <h3>Web Page / Website</h3>
+                        <p>A <strong>web page</strong> is a single HTML document. A <strong>website</strong> is a set of related pages.</p>
+                    </div>
+                    <div>
+                        <h3>URL (Uniform Resource Locator)</h3>
+                        <p>Example: <code>http://www.xyz.com/tutor/start/main.htm</code><br />
+                        Protocol &rarr; Domain Name &rarr; Path &rarr; File Name</p>
+                        <h3>Domain Types</h3>
+                        <p>.com (commercial), .edu (education), .gov (government), .org (non-profit)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Internet &amp; WWW</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/9hqi7R-ucVU" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== UNIT 10: SECURITY ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-unit10">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Unit 10: <span>Computer Security</span></h1>
+                <div class="sub">Security Attacks · Malicious Software · Cryptography · Digital Signatures · Firewalls · Authentication</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Security Threats</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Malicious Software</h3>
+                        <ul>
+                            <li><strong>Virus</strong> — attaches to programs, replicates, destroys data.</li>
+                            <li><strong>Worm</strong> — self-replicating, uses network holes, consumes resources.</li>
+                            <li><strong>Trojan Horse</strong> — masquerades as useful software, hides destruction.</li>
+                            <li><strong>JavaScript / ActiveX</strong> — malicious scripts embedded in web pages.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Hacking</h3>
+                        <ul>
+                            <li><strong>Packet Sniffing</strong> — intercepts data packets over the network.</li>
+                            <li><strong>Password Cracking</strong> — attempts to break encrypted passwords.</li>
+                            <li><strong>E-mail Hacking</strong> — reading or altering e-mail in transit.</li>
+                            <li><strong>Denial of Service (DoS)</strong> — floods a system with requests, making it unavailable.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Phishing Email</h3>
+                    <p>You receive an email pretending to be from your bank, asking for your password. This is a <strong>Trojan horse</strong> attack. Knowing this, you use <strong>encryption</strong> and <strong>two-factor authentication</strong> to protect your account. A <strong>firewall</strong> would also block suspicious traffic.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Authentication Methods</h2>
+                <ul>
+                    <li><strong>Username &amp; Password</strong> — most common. Weak if simple.</li>
+                    <li><strong>Smart Card</strong> — embedded chip, stores credentials.</li>
+                    <li><strong>Biometrics</strong> — fingerprint, iris/retina scan, voice pattern, facial recognition.</li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Computer Security</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/1K9Wb97hG2w" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== INFORMATION SYSTEMS ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-info">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Information Systems</h1>
+                <div class="sub">Data · Information · Knowledge · CBIS · TPS · MIS · DSS · EIS · ERP · E-commerce</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Data, Information & Knowledge</h2>
+                <div class="grid-2">
+                    <div style="background:#eff6ff;padding:18px;border-radius:12px;">
+                        <h3>Data</h3>
+                        <p>Raw facts, unprocessed. Example: "24th", "Oct", "2012"</p>
+                    </div>
+                    <div style="background:#fef3c7;padding:18px;border-radius:12px;">
+                        <h3>Information</h3>
+                        <p>Processed, organized data with meaning. Example: "Independence Day on 24th Oct 2012"</p>
+                    </div>
+                    <div style="background:#ecfdf5;padding:18px;border-radius:12px;grid-column:1/3;">
+                        <h3>Knowledge</h3>
+                        <p>Inference or conclusion drawn from information. Example: "Plan trip to Kitwe for the celebrations."</p>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div style="background:#f0fdf4;border-left:6px solid #22c55e;padding:16px 22px;border-radius:10px;margin:20px 0;">
+                    <h3 style="margin-top:0;color:#166534;">Scenario: Inventory Management</h3>
+                    <p>A store uses a <strong>TPS</strong> to track each sale (data). At the end of the day, the <strong>MIS</strong> generates a report showing total sales and low-stock items (information). The manager uses this <strong>knowledge</strong> to reorder supplies and adjust prices, ensuring the store runs efficiently.</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Types of Information Systems</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>System</th><th>Level</th><th>Purpose</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>TPS</strong> (Transaction Processing System)</td><td>Operational</td><td>Records routine business transactions (sales, deposits)</td></tr>
+                            <tr><td><strong>OAS</strong> (Office Automation System)</td><td>Operational</td><td>Supports office work (documents, communication)</td></tr>
+                            <tr><td><strong>MIS</strong> (Management Information System)</td><td>Middle Management</td><td>Generates reports (summary, exception, detail)</td></tr>
+                            <tr><td><strong>DSS</strong> (Decision Support System)</td><td>Middle Management</td><td>Supports problem-specific decisions (simulation, modeling)</td></tr>
+                            <tr><td><strong>EIS</strong> (Executive Information System)</td><td>Top Management</td><td>Strategic information, trends, opportunities</td></tr>
+                            <tr><td><strong>Expert System</strong></td><td>Specialized</td><td>Mimics human expert (knowledge base + inference engine)</td></tr>
+                            <tr><td><strong>ERP</strong> (Enterprise Resource Planning)</td><td>Organization-wide</td><td>Integrates all business functions (SAP)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Video: Information Systems</h2>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/1cC_iRzDjO8" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== GLOSSARY PAGE ===== -->
+    <!-- ============================================================ -->
+    <section class="page-section" id="page-glossary">
+        <div class="container">
+            <div class="unit-header">
+                <h1>Abbreviations &amp; <span>Glossary</span></h1>
+                <div class="sub">Full explanations of every technical abbreviation used in this course.</div>
+            </div>
+
+            <div class="content-block">
+                <h2>Computer Hardware & Architecture</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Abbreviation</th><th>Full Name</th><th>Explanation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>CPU</strong></td><td>Central Processing Unit</td><td>The "brain" of the computer that executes instructions and processes data.</td></tr>
+                            <tr><td><strong>ALU</strong></td><td>Arithmetic Logic Unit</td><td>The part of the CPU that performs arithmetic (+, -, ×, ÷) and logic operations (&lt;, &gt;, =).</td></tr>
+                            <tr><td><strong>CU</strong></td><td>Control Unit</td><td>The component of the CPU that manages the execution of instructions and coordinates hardware.</td></tr>
+                            <tr><td><strong>RAM</strong></td><td>Random Access Memory</td><td>Volatile memory used for temporary storage of data and instructions while the computer is on.</td></tr>
+                            <tr><td><strong>ROM</strong></td><td>Read Only Memory</td><td>Non-volatile memory that stores permanent instructions (like BIOS).</td></tr>
+                            <tr><td><strong>BIOS</strong></td><td>Basic Input Output System</td><td>Firmware stored in ROM that initializes hardware and boots the operating system.</td></tr>
+                            <tr><td><strong>POST</strong></td><td>Power On Self Test</td><td>A diagnostic test that runs when a computer starts to check if hardware is functioning.</td></tr>
+                            <tr><td><strong>CMOS</strong></td><td>Complementary Metal-Oxide-Semiconductor</td><td>A type of memory chip that stores system settings (date, time) and is powered by a small battery.</td></tr>
+                            <tr><td><strong>PCI</strong></td><td>Peripheral Component Interconnect</td><td>A standard slot on the motherboard for connecting expansion cards (sound, network).</td></tr>
+                            <tr><td><strong>USB</strong></td><td>Universal Serial Bus</td><td>A standard interface for connecting peripherals like keyboards, mice, and cameras.</td></tr>
+                            <tr><td><strong>NIC</strong></td><td>Network Interface Card</td><td>A hardware component that connects a computer to a network.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Data & Memory</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Abbreviation</th><th>Full Name</th><th>Explanation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>KB</strong></td><td>Kilobyte</td><td>1,024 bytes of data.</td></tr>
+                            <tr><td><strong>MB</strong></td><td>Megabyte</td><td>1,024 KB (about 1 million bytes).</td></tr>
+                            <tr><td><strong>GB</strong></td><td>Gigabyte</td><td>1,024 MB (about 1 billion bytes).</td></tr>
+                            <tr><td><strong>TB</strong></td><td>Terabyte</td><td>1,024 GB (about 1 trillion bytes).</td></tr>
+                            <tr><td><strong>DRAM</strong></td><td>Dynamic RAM</td><td>Main memory type that needs constant refreshing to hold data.</td></tr>
+                            <tr><td><strong>SRAM</strong></td><td>Static RAM</td><td>Faster, more expensive memory used for cache, doesn't need refreshing.</td></tr>
+                            <tr><td><strong>DIMM</strong></td><td>Dual In-line Memory Module</td><td>A type of RAM module with 64-bit data transfer (used in desktops).</td></tr>
+                            <tr><td><strong>SIMM</strong></td><td>Single In-line Memory Module</td><td>An older type of RAM module with 32-bit data transfer.</td></tr>
+                            <tr><td><strong>EEPROM</strong></td><td>Electrically Erasable Programmable ROM</td><td>A type of ROM that can be erased and rewritten using electrical voltage.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Networking & Internet</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Abbreviation</th><th>Full Name</th><th>Explanation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>LAN</strong></td><td>Local Area Network</td><td>A network that connects devices within a small area like a room or building.</td></tr>
+                            <tr><td><strong>MAN</strong></td><td>Metropolitan Area Network</td><td>A network that covers a city or a large campus.</td></tr>
+                            <tr><td><strong>WAN</strong></td><td>Wide Area Network</td><td>A network that covers a large geographic area like a country or continent (e.g., the Internet).</td></tr>
+                            <tr><td><strong>ISP</strong></td><td>Internet Service Provider</td><td>An organization that provides Internet access to customers (e.g., Airtel, MTN).</td></tr>
+                            <tr><td><strong>URL</strong></td><td>Uniform Resource Locator</td><td>The unique address of a web page (e.g., https://www.google.com).</td></tr>
+                            <tr><td><strong>WWW</strong></td><td>World Wide Web</td><td>A system of linked hypertext documents accessed via the Internet.</td></tr>
+                            <tr><td><strong>HTTP</strong></td><td>Hypertext Transfer Protocol</td><td>The protocol used to transfer web pages over the Internet.</td></tr>
+                            <tr><td><strong>FTP</strong></td><td>File Transfer Protocol</td><td>A protocol used to upload and download files between computers.</td></tr>
+                            <tr><td><strong>SMTP</strong></td><td>Simple Mail Transfer Protocol</td><td>The protocol used to send e-mail messages.</td></tr>
+                            <tr><td><strong>POP</strong></td><td>Post Office Protocol</td><td>A protocol used by e-mail clients to retrieve messages from a server.</td></tr>
+                            <tr><td><strong>IMAP</strong></td><td>Internet Mail Access Protocol</td><td>A protocol for accessing e-mail stored on a server.</td></tr>
+                            <tr><td><strong>DNS</strong></td><td>Domain Name System</td><td>Translates domain names (like google.com) into IP addresses.</td></tr>
+                            <tr><td><strong>VoIP</strong></td><td>Voice over Internet Protocol</td><td>Technology that allows voice calls to be made over the Internet.</td></tr>
+                            <tr><td><strong>HTML</strong></td><td>Hypertext Markup Language</td><td>The standard language used to create web pages.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Security & Cryptography</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Abbreviation</th><th>Full Name</th><th>Explanation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>DoS</strong></td><td>Denial of Service</td><td>An attack that floods a system with requests, making it unavailable to users.</td></tr>
+                            <tr><td><strong>DES</strong></td><td>Data Encryption Standard</td><td>An older symmetric key encryption algorithm.</td></tr>
+                            <tr><td><strong>AES</strong></td><td>Advanced Encryption Standard</td><td>A modern, highly secure symmetric key encryption algorithm.</td></tr>
+                            <tr><td><strong>RSA</strong></td><td>Rivest-Shamir-Adleman</td><td>A widely used public-key cryptography algorithm.</td></tr>
+                            <tr><td><strong>SSL</strong></td><td>Secure Sockets Layer</td><td>A security protocol that encrypts data transmitted over the Internet (now replaced by TLS).</td></tr>
+                            <tr><td><strong>TLS</strong></td><td>Transport Layer Security</td><td>The current security protocol for encrypting network communication.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Information Systems & Software</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Abbreviation</th><th>Full Name</th><th>Explanation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>MIS</strong></td><td>Management Information System</td><td>Provides managers with reports and summaries for decision-making.</td></tr>
+                            <tr><td><strong>DSS</strong></td><td>Decision Support System</td><td>Supports middle managers with analytical tools and simulation models.</td></tr>
+                            <tr><td><strong>EIS</strong></td><td>Executive Information System</td><td>Provides top executives with summarized, strategic information.</td></tr>
+                            <tr><td><strong>TPS</strong></td><td>Transaction Processing System</td><td>Handles routine business transactions (sales, payments, deposits).</td></tr>
+                            <tr><td><strong>OAS</strong></td><td>Office Automation System</td><td>Supports general office work like documents, messaging, and scheduling.</td></tr>
+                            <tr><td><strong>ERP</strong></td><td>Enterprise Resource Planning</td><td>An integrated software suite that manages all business functions (HR, finance, supply chain).</td></tr>
+                            <tr><td><strong>SAP</strong></td><td>Systems, Applications, and Products</td><td>A famous ERP software provider used by large corporations.</td></tr>
+                            <tr><td><strong>SQL</strong></td><td>Structured Query Language</td><td>The standard language for managing and querying relational databases.</td></tr>
+                            <tr><td><strong>GUI</strong></td><td>Graphical User Interface</td><td>A visual interface that uses icons, menus, and a mouse.</td></tr>
+                            <tr><td><strong>OS</strong></td><td>Operating System</td><td>System software that manages hardware and software resources (Windows, Linux, MacOS).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Data Processing Course</strong> — Copperbelt University &bull; School of Business</p>
+            <p style="font-size:0.9rem;margin-top:6px;">Built for interactive learning &bull; All units based on official lecture notes</p>
+            <p style="font-size:0.8rem;margin-top:8px;color:#64748b;">Videos embedded from YouTube &bull; Icons from FontAwesome</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ---- NAVIGATION ----
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const hamburger = document.getElementById('hamburger');
+            const navLinksContainer = document.getElementById('navLinks');
+
+            function switchPage(pageId) {
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                const target = document.getElementById('page-' + pageId);
+                if (target) target.classList.add('active');
+
+                navLinks.forEach(a => a.classList.remove('active'));
+                const activeLink = Array.from(navLinks).find(a => a.dataset.page === pageId);
+                if (activeLink) activeLink.classList.add('active');
+
+                navLinksContainer.classList.remove('open');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    if (page) switchPage(page);
+                });
+            });
+
+            hamburger.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('open');
+            });
+
+            // ---- CAROUSEL ----
+            const track = document.getElementById('carouselTrack');
+            const slides = track.querySelectorAll('.carousel-slide');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            const dotsContainer = document.getElementById('carouselDots');
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+
+            function updateCarousel() {
+                track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+                const dots = dotsContainer.querySelectorAll('span');
+                dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+            }
+
+            function createDots() {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.toggle('active', i === 0);
+                    dot.addEventListener('click', function() {
+                        currentIndex = i;
+                        updateCarousel();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+            }
+            createDots();
+
+            prevBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            });
+            nextBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            });
+
+            let autoPlay = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }, 6000);
+
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            carouselWrapper.addEventListener('mouseenter', () => clearInterval(autoPlay));
+            carouselWrapper.addEventListener('mouseleave', () => {
+                autoPlay = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    updateCarousel();
+                }, 6000);
+            });
+
+            // ---- SCROLL TOP ----
+            const scrollBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 500) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            });
+            scrollBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ---- KEYBOARD NAVIGATION (Carousel) ----
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('page-home').classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') {
+                        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                        updateCarousel();
+                        e.preventDefault();
+                    } else if (e.key === 'ArrowRight') {
+                        currentIndex = (currentIndex + 1) % totalSlides;
+                        updateCarousel();
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            console.log('Data Processing Website loaded successfully!');
+        })();
+    </script>
+
+</body>
+</html>
